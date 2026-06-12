@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>CRITICAL SYSTEM ERROR</title>
+    <style>
+        body {
+            background: #000;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            transition: background 0.1s ease;
+        }
+
+        body.infected {
+            background: radial-gradient(circle, rgba(180,0,0,0.8) 0%, rgba(10,0,0,1) 100%), 
+                        url("https://www.gifcen.com/wp-content/uploads/2023/11/hacker-gif-5.gif");
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: multiply;
+            animation: screen-shake 0.1s infinite alternate;
+        }
+
+        #action-button {
+            background-color: #00ffaa;
+            color: black;
+            border: 4px solid white;
+            padding: 25px 50px;
+            font-size: 2.5rem;
+            font-weight: 900;
+            font-family: 'Arial Black', Gadget, sans-serif;
+            cursor: pointer;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0, 255, 170, 0.8);
+            animation: pulse-button-green 0.5s infinite alternate;
+            z-index: 999;
+            transition: all 0.2s;
+        }
+
+        #action-button.infected-btn {
+            background-color: #ff0000;
+            color: white;
+            box-shadow: 0 10px 50px rgba(255, 0, 0, 1);
+            animation: pulse-button-red 0.1s infinite alternate;
+            display: none;
+        }
+
+        #main-container {
+            text-align: center;
+            display: none; 
+            z-index: 10;
+        }
+
+        #header-warning {
+            color: #ff0000;
+            font-size: 4.5rem;
+            font-weight: 900;
+            font-family: 'Arial Black', Gadget, sans-serif;
+            text-shadow: 0 0 30px rgba(255, 0, 0, 1);
+            animation: blink 0.1s infinite;
+            margin: 0 0 20px;
+        }
+
+        #status-list {
+            color: #ff3333;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.6rem;
+            text-align: left;
+            display: inline-block;
+            margin-bottom: 30px;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 20px;
+            border: 2px solid #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        }
+
+        .status-item {
+            margin-bottom: 12px;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+            opacity: 0; 
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .status-item.visible {
+            opacity: 1; 
+        }
+
+        .status-item span {
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 5px #fff;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes pulse-button-green {
+            from { transform: scale(1); }
+            to { transform: scale(1.06); }
+        }
+
+        @keyframes pulse-button-red {
+            from { transform: scale(1); }
+            to { transform: scale(1.15); }
+        }
+
+        @keyframes screen-shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            100% { transform: translate(-1px, -1px) rotate(0.5deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <button id="action-button">Zagraj w gre</button>
+
+    <div id="main-container">
+        <h1 id="header-warning">⚠️ SYSTEM ZAINFEKOWANY ⚠️</h1>
+
+        <div id="status-list">
+            <div class="status-item">STATUS FIREWALLA: <span>ZABLOKOWANY</span></div>
+            <div class="status-item">INTEGRALNOŚĆ REJESTRU: <span>KRYTYCZNA - MODYFIKACJA KLUCZY</span></div>
+            <div class="status-item">SESJA FACEBOOK: <span>WYLOGOWANO (SESJA PRZEJĘTA)</span></div>
+            <div class="status-item">SESJA GOOGLE / YOUTUBE: <span>ZABLOKOWANA</span></div>
+            <div class="status-item">BAZA HASEŁ PRZEGLĄDARKI: <span>WYKRADZIONA (DEKRYPTACJA W TOKU)</span></div>
+            <div class="status-item">SESJE BANKOWE: <span>PRZECHWYCONE</span></div>
+            <div class="status-item">DANE TOŻSAMOŚCI: <span>EKSPORTOWANE NA SERWER ZEWNĘTRZNY</span></div>
+            <div class="status-item">KONTROLA UPRAWNIEŃ: <span>BRAK - UZYSKANO DOSTĘP ROOT</span></div>
+        </div>
+    </div>
+
+<script>
+        // TUTAJ MOŻESZ ZMIENIĆ GIF DLA KAŻDEGO Z 10 OKIEN OSOBNO:
+        const linkiDoGifow = [
+            "https://media.tenor.com/t5fpt8VevjoAAAAM/chair-spin-spin-chair.gif", // GIF dla 1 okna
+            "https://gifdb.com/images/high/scary-mumbling-ghost-c42ncebjyhpszw5t.gif", // GIF dla 2 okna
+            "https://i.pinimg.com/originals/cf/1e/b5/cf1eb5ae90533c39b6b5bba02b247506.gif", // GIF dla 3 okna
+            "https://www.icegif.com/wp-content/uploads/2022/01/icegif-180.gif", // GIF dla 4 okna
+            "https://th.bing.com/th/id/R.99c4f8e4c20f64d19c6173ead488d653?rik=OhUtP0qyKy6o5w&pid=ImgRaw&r=0", // GIF dla 5 okna
+            "https://media1.tenor.com/m/9MVlipGuNioAAAAC/you-are-an-idiot.gif", // GIF dla 6 okna
+            "https://i.makeagif.com/media/8-11-2015/zns6KN.gif", // GIF dla 7 okna
+            "https://media1.giphy.com/media/dOOQ6Ka6F28rm/giphy.gif", // GIF dla 8 okna
+            "https://media1.tenor.com/m/tNUmI0dD6VEAAAAC/despair.gif", // GIF dla 9 okna
+            "https://th.bing.com/th/id/R.345c4f6c476ac8e7e261802dc343af38?rik=4TSY03epcWEaBA&pid=ImgRaw&r=0"  // GIF dla 10 okna
+        ];
+
+        let alarmGra = false;
+        let windowsCount = 0; 
+
+        function grajPodkrecanyAlarm() {
+            if (alarmGra) return; 
+            alarmGra = true;
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                const ctx = new AudioContext();
+                const oscylator = ctx.createOscillator();
+                const gainNode = ctx.createGain();
+                
+                oscylator.connect(gainNode);
+                gainNode.connect(ctx.destination);
+                
+                oscylator.type = 'sawtooth'; 
+                const currentTime = ctx.currentTime;
+                gainNode.gain.setValueAtTime(0.2, currentTime);
+                
+                for (let i = 0; i < 3000; i++) {
+                    const time = currentTime + i * 0.15;
+                    oscylator.frequency.setValueAtTime(1200, time);
+                    oscylator.frequency.setValueAtTime(400, time + 0.075);
+                }
+                oscylator.start();
+                if (ctx.state === 'suspended') ctx.resume();
+            } catch(e) { console.log(e); }
+        }
+
+        function uruchomPelnyAtakOkienkowy() {
+            alert("⚠️ SYSTEM SECURITY ALERT: Wykryto nieautoryzowany dostęp do menedżera haseł lokalnych!");
+            
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude.toFixed(4);
+                        const lon = position.coords.longitude.toFixed(4);
+                        alert(`[GEOLOKALIZACJA] Namierzono współrzędne urządzenia: Szerokość: ${lat}, Długość: ${lon}. Dane przesłane na serwer.`);
+                        kontynuujOkienka();
+                    },
+                    (error) => {
+                        alert("[GEOLOKALIZACJA] Odmowa dostępu do GPS. Użyto przybliżonego adresu IP węzła sieciowego.");
+                        kontynuujOkienka();
+                    }
+                );
+            } else {
+                kontynuujOkienka();
+            }
+        }
+
+        function kontynuujOkienka() {
+            let pass1 = prompt("[KRYTYCZNE] Zaszyfrowany magazynek haseł Google Chrome wymaga weryfikacji. Wprowadź główne hasło systemowe (Master Password), aby przerwać eksport danych:");
+            if (pass1) {
+                alert(`Deszyfracja pomyślna. Przejęto klucz dostępu dla ciągu: "${pass1}".`);
+            }
+
+            let conf1 = confirm("Witryna żąda pełnego dostępu do tokenów sesyjnych (Cookies) kont bankowych w celu ich 'zabezpieczenia'. Zezwolić?");
+            if (!conf1) {
+                alert("Odmowa użytkownika została nadpisana przez proces nadrzędny. Uzyskano uprawnienia administratora.");
+            }
+
+            let pass2 = prompt("🚨 BLOKADA KONT SPOŁECZNOŚCIOWYCH. Wprowadź aktualne hasło do konta e-mail powiązanego z profilem, aby zresetować tokeny uwierzytelniające:");
+            if (pass2) {
+                alert(`Przesyłanie nowego hasła profilu na serwer lustrzany... Zakończono.`);
+            }
+
+            confirm("Wykryto próbę pobrania całej historii przeglądania oraz zapisanych formularzy kart kredytowych. Czy chcesz przerwać transfer?");
+            alert("Nie można zatrzymać operacji. Port wychodzący SSH został zablokowany.");
+            
+            alert("🚨 KATASTROFALNY BŁĄD SYSTEMU: Proces CORE_SYS_BYPASS.EXE przejął tablicę uprawnień jądra.");
+            prompt("Wpisz 'POTWIERDZAM BLOKADĘ', aby spróbować wyizolować zainfekowane sektory pamięci RAM:");
+            
+            alert("Błąd autoryzacji. Skrypt infekujący rozprzestrzenia się do pamięci podręcznej dysku...");
+        }
+
+        function otworzOkno() {
+            if (windowsCount >= 10) return; // Zmieniono limit z 5 na 10
+
+            const aktualnyGif = linkiDoGifow[windowsCount];
+            windowsCount++; 
+            
+            const winWidth = 450;
+            const winHeight = 350;
+            const startX = Math.random() * (screen.availWidth - winWidth);
+            const startY = Math.random() * (screen.availHeight - winHeight);
+            
+            const noweOkno = window.open("", `okno_bledu_${windowsCount}`, `width=${winWidth},height=${winHeight},left=${startX},top=${startY},location=no,menubar=no,status=no,toolbar=no`);
+            
+            if (noweOkno) {
+                noweOkno.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>SYSTEM_FAILURE_${windowsCount}.EXE</title>
+                        <style>
+                            body { margin: 0; background: #000; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+                            img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; opacity: 0.8; }
+                        </style>
+                    </head>
+                    <body>
+                        <img src="${aktualnyGif}">
+                        <script>
+                            let tekstTytulu = "🌕🌖🌗🌘🌑🌒🌓🌔🌕";
+                            setInterval(() => {
+                                tekstTytulu = tekstTytulu.substring(1) + tekstTytulu.substring(0, 1);
+                                document.title = tekstTytulu;
+                            }, 80);
+
+                            let w = 450; let h = 350;
+                            let x = window.screenX; let y = window.screenY; 
+                            
+                            let dx = (Math.random() - 0.5) * 15; 
+                            let dy = (Math.random() - 0.5) * 15; 
+                            
+                            function ruszaj() {
+                                x += dx; y += dy;
+                                
+                                if (x <= 0) { x = 0; dx = -dx; }
+                                else if (x + w >= screen.availWidth) { x = screen.availWidth - w; dx = -dx; }
+                                
+                                if (y <= 0) { y = 0; dy = -dy; }
+                                else if (y + h >= screen.availHeight) { y = screen.availHeight - h; dy = -dy; }
+                                
+                                window.moveTo(x, y);
+                                requestAnimationFrame(ruszaj);
+                            }
+                            
+                            setTimeout(ruszaj, Math.random() * 200 + 50);
+                        <\/script>
+                    </body>
+                    </html>
+                `);
+                noweOkno.document.close();
+                
+                setTimeout(otworzOkno, 1200); 
+            } else {
+                windowsCount--;
+            }
+        }
+
+        function pokazStatusyPoKolei() {
+            const items = document.querySelectorAll('.status-item');
+            items.forEach((item, index) => {
+                setTimeout(() => {
+                    item.classList.add('visible');
+                    
+                    if (index === items.length - 1) {
+                        setTimeout(() => {
+                            uruchomPelnyAtakOkienkowy();
+                        }, 600);
+                    }
+                }, index * 450); 
+            });
+        }
+
+        document.getElementById('action-button').addEventListener('click', function() {
+            const btn = this;
+            
+            document.body.classList.add('infected');
+            document.getElementById('main-container').style.display = 'block';
+            btn.classList.add('infected-btn');
+
+            grajPodkrecanyAlarm();
+            
+            setTimeout(otworzOkno, 50); 
+            pokazStatusyPoKolei();
+        });
+    </script>
+</body>
+</html>
